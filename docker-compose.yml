@@ -30,8 +30,8 @@ services:
     image: rmohr/activemq:latest
     container_name: activemq
     ports:
-      - "61619:61616"
-      - "8169:8166"
+      - "61616:61616"
+      - "8166:8166"
     environment:
       ACTIVEMQ_ADMIN_LOGIN: admin
       ACTIVEMQ_ADMIN_PASSWORD: admin
