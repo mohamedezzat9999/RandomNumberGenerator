@@ -57,4 +57,25 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Grant execute permissi
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    - name: Wait for services to be healthy
+      run: |
+        sudo docker-compose up -d
+        docker-compose ps
+        sleep 30
+
+    - name: Build with Gradle
+      run: ./gradlew build
+
+    - name: Run tests with detailed logging
+      run: ./gradlew test --info --stacktrace --scan
+      env:
+        SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/test
+        SPRING_DATASOURCE_USERNAME: root
+        SPRING_DATASOURCE_PASSWORD: password
+        SPRING_ACTIVEMQ_BROKER_URL: tcp://localhost:61616
+        SPRING_KAFKA_BOOTSTRAP_SERVERS: localhost:9092
+        SPRING_KAFKA_TOPIC: random-numbers
+        SPRING_KAFKA_CONSUMER_GROUP_ID: group_id
