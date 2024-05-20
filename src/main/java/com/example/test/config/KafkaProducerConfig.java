@@ -16,7 +16,6 @@ import java.util.Map;
 public class KafkaProducerConfig {
     @Value("${spring.kafka.order.bootstrap-servers}")
     private String bootstrapServers;
-    //"localhost:9092"
     @Bean
     public <K, V> ProducerFactory<K, V> createOrderProducerFactory() {
         Map<String, Object> configProps = new HashMap<>();

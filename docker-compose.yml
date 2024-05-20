@@ -11,10 +11,10 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: password
 
-      SPRING_ACTIVEMQ_BROKER_URL: tcp://activemq:61616  # ActiveMQ broker URL
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092  # Kafka broker URL
-      SPRING_KAFKA_TOPIC: random-numbers  # Replace with your Kafka topic
-      SPRING_KAFKA_CONSUMER_GROUP_ID: group_id  # Replace with your Kafka consumer group ID
+      SPRING_ACTIVEMQ_BROKER_URL: tcp://activemq:61616
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SPRING_KAFKA_TOPIC: random-numbers
+      SPRING_KAFKA_CONSUMER_GROUP_ID: group_id
 
     depends_on:
       - mysql-db
