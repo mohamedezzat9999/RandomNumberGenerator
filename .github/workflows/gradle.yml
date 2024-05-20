@@ -18,8 +18,8 @@ jobs:
       activemq:
         image: rmohr/activemq:latest
         ports:
-          - 61616:61616
-          - 8161:8161
+          - 61617 :61617
+          - 8162 :8162
         env:
           ACTIVEMQ_ADMIN_LOGIN: admin
           ACTIVEMQ_ADMIN_PASSWORD: admin
