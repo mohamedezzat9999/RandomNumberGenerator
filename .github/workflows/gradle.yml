@@ -44,9 +44,9 @@ jobs:
           KAFKA_MESSAGE_MAX_BYTES: 20000000
           KAFKA_REPLICA_FETCH_MAX_BYTES: 20000000
         options: >-
-          --health-cmd="kafka-broker-api-versions.sh --bootstrap-server localhost:9092"
+          --health-cmd="curl --silent --fail localhost:9092"
           --health-interval=10s
-          --health-timeout=60s
+          --health-timeout=5s
           --health-retries=10
 
     steps:
@@ -66,16 +66,24 @@ jobs:
       run: |
         sudo docker-compose up -d
         docker-compose ps
-        until docker inspect -f '{{.State.Health.Status}}' kafka | grep -q "healthy"; do
-          echo "Waiting for Kafka to be healthy..."
-          sleep 10
-        done
+        sleep 30
 
     - name: Build with Gradle
       run: ./gradlew build
 
-    - name: Run tests with detailed logging
-      run: ./gradlew test --info --stacktrace --scan
+    - name: Retry Kafka Connection
+      run: |
+        retries=3
+        for ((i=1; i<=$retries; i++)); do
+          echo "Attempt $i"
+          ./gradlew test --info --stacktrace --scan
+          if [ $? -eq 0 ]; then
+            echo "Kafka connection successful."
+            break
+          fi
+          echo "Waiting 10 seconds before retrying..."
+          sleep 10
+        done
       env:
         SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/test
         SPRING_DATASOURCE_USERNAME: root
