@@ -24,30 +24,8 @@ jobs:
           ACTIVEMQ_ADMIN_LOGIN: admin
           ACTIVEMQ_ADMIN_PASSWORD: admin
 
-      zookeeper:
-        image: confluentinc/cp-zookeeper:latest
-        ports:
-          - 2181:2181
-        env:
-          ZOOKEEPER_CLIENT_PORT: 2181
-          ZOOKEEPER_TICK_TIME: 2000
 
-      kafka:
-        image: confluentinc/cp-kafka:latest
-        ports:
-          - 9092:9092
-        env:
-          KAFKA_BROKER_ID: 1
-          KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-          KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
-          KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-          KAFKA_MESSAGE_MAX_BYTES: 20000000
-          KAFKA_REPLICA_FETCH_MAX_BYTES: 20000000
-        options: >-
-          --health-cmd="curl --silent --fail localhost:9092"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=10
+
 
     steps:
     - name: Checkout code
@@ -78,11 +56,3 @@ jobs:
         SPRING_DATASOURCE_USERNAME: root
         SPRING_DATASOURCE_PASSWORD: password
         SPRING_ACTIVEMQ_BROKER_URL: tcp://localhost:61616
-        SPRING_KAFKA_BOOTSTRAP_SERVERS: localhost:9092
-        SPRING_KAFKA_TOPIC: random-numbers
-        SPRING_KAFKA_CONSUMER_GROUP_ID: group_id
-        SPRING_KAFKA_CONSUMER_MAX_POLL_RECORDS: 500
-        SPRING_KAFKA_CONSUMER_MAX_POLL_INTERVAL_MS: 20000000
-        SPRING_KAFKA_CONSUMER_FETCH_MAX_BYTES: 20000000
-        SPRING_KAFKA_MESSAGE_MAX_BYTES: 20000000
-        SPRING_KAFKA_REPLICA_FETCH_MAX_BYTES: 20000000

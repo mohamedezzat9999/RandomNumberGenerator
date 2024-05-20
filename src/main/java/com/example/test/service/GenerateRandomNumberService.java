@@ -4,9 +4,7 @@ package com.example.test.service;
 import com.example.test.entity.RandomNumber;
 import com.example.test.repository.RandomNumberRepository;
 import lombok.AllArgsConstructor;
-import lombok.Setter;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +14,7 @@ import java.util.Random;
 @AllArgsConstructor
     public class GenerateRandomNumberService {
     private final RandomNumberRepository randomNumberRepository;
-    private final KafkaTemplate<String, Object> kafkaTemplate;
-    private final JmsTemplate jmsTemplate;;
+    private final JmsTemplate jmsTemplate;
     private final Random random = new Random();
 
     @Scheduled(cron = "*/10 * * * * *")

@@ -25,9 +25,6 @@ public class GenerateRandomNumberServiceTest {
     private RandomNumberRepository randomNumberRepository;
 
     @Mock
-    private KafkaTemplate<String, Object> kafkaTemplate;
-
-    @Mock
     private JmsTemplate jmsTemplate;
 
     @InjectMocks
@@ -53,7 +50,5 @@ public class GenerateRandomNumberServiceTest {
         RandomNumber expectedRandomNumber = new RandomNumber();
         expectedRandomNumber.setNumber(randomNumber);
         verify(randomNumberRepository, times(1)).save(refEq(expectedRandomNumber));
-        verify(kafkaTemplate, never()).send(anyString(), any());
-
     }
 }
