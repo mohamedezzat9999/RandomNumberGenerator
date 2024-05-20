@@ -8,17 +8,44 @@ jobs:
 
     services:
       mysql:
-        image: mysql:5.7
+        image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: password
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: test
         ports:
           - 3306:3306
+
+      activemq:
+        image: rmohr/activemq:latest
+        ports:
+          - 61616:61616
+          - 8161:8161
+        env:
+          ACTIVEMQ_ADMIN_LOGIN: admin
+          ACTIVEMQ_ADMIN_PASSWORD: admin
+
+      zookeeper:
+        image: confluentinc/cp-zookeeper:latest
+        ports:
+          - 2181:2181
+        env:
+          ZOOKEEPER_CLIENT_PORT: 2181
+          ZOOKEEPER_TICK_TIME: 2000
+
+      kafka:
+        image: confluentinc/cp-kafka:latest
+        ports:
+          - 9092:9092
+        env:
+          KAFKA_BROKER_ID: 1
+          KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+          KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+          KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
         options: >-
-          --health-cmd="mysqladmin ping --silent"
+          --health-cmd="curl --silent --fail localhost:9092"
           --health-interval=10s
           --health-timeout=5s
-          --health-retries=3
+          --health-retries=10
 
     steps:
     - name: Checkout code
@@ -30,22 +57,4 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-
-    - name: List files and permissions
-      run: ls -l
-
-    - name: Display environment information
-      run: printenv
-
-    - name: Start MySQL service
-      run: |
-        sudo systemctl start mysql
-        sudo systemctl status mysql
-
-    - name: Build with Gradle
-      run: ./gradlew build
-
-    - name: Run tests with detailed logging
-      run: ./gradlew test --info --stacktrace
+    - name: Grant execute permissi
