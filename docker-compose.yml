@@ -10,7 +10,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3307/test
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: password
-      SPRING_ACTIVEMQ_BROKER_URL: tcp://activemq:61618
+      SPRING_ACTIVEMQ_BROKER_URL: tcp://activemq:61616
     depends_on:
       - mysql-db
       - activemq
@@ -22,7 +22,7 @@ services:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: test
     ports:
-      - "3307:3306"  # Changed host port to 3307
+      - "3306:3306"  # Changed host port to 3307
     volumes:
       - mysql_data:/var/lib/mysql
 
@@ -30,8 +30,8 @@ services:
     image: rmohr/activemq:latest
     container_name: activemq
     ports:
-      - "61618:61616"  # Changed host port to 61618
-      - "8163:8161"    # Changed host port to 8163
+      - "61616:61616"  # Changed host port to 61618
+      - "8161:8161"    # Changed host port to 8163
     environment:
       ACTIVEMQ_ADMIN_LOGIN: admin
       ACTIVEMQ_ADMIN_PASSWORD: admin

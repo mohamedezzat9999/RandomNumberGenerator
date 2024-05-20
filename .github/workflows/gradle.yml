@@ -13,13 +13,13 @@ jobs:
           MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: test
         ports:
-          - 3307:3306  # Changed host port to 3307
+          - 3306:3306  # Changed host port to 3307
 
       activemq:
         image: rmohr/activemq:latest
         ports:
-          - 61618:61616  # Changed host port to 61618
-          - 8163:8161    # Changed host port to 8163
+          - 61616:61616  # Changed host port to 61618
+          - 8161:8161    # Changed host port to 8163
         env:
           ACTIVEMQ_ADMIN_LOGIN: admin
           ACTIVEMQ_ADMIN_PASSWORD: admin
@@ -52,4 +52,4 @@ jobs:
           SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3307/test
           SPRING_DATASOURCE_USERNAME: root
           SPRING_DATASOURCE_PASSWORD: password
-          SPRING_ACTIVEMQ_BROKER_URL: tcp://localhost:61618
+          SPRING_ACTIVEMQ_BROKER_URL: tcp://localhost:61616
