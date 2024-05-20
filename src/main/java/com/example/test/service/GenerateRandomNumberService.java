@@ -22,7 +22,7 @@ import java.util.Random;
 
     @Scheduled(cron = "*/10 * * * * *")
     public void generateAndSaveRandomNumber() {
-        int randomNumber = random.nextInt(100);
+        Integer randomNumber = random.nextInt(100);
         RandomNumber obj = new RandomNumber();
         obj.setNumber(randomNumber);
         randomNumberRepository.save(obj);
